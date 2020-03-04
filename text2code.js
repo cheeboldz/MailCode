@@ -69,13 +69,3 @@ function get_repl_connection_token(api_key, repl_ID) {
   }).then(res => res.json())
 }
 
-
-// const script_server = http.createServer((req, res) => {
-//     res.statusCode = 200
-//     res.setHeader("Content-Type", "text/plain")
-//     res.end("Hello World")
-// })
-
-// script_server.listen(host_port_number, host_name, () => {
-//     console.log(`Server running at http://${host_name}:${host_port_number}/`)
-// })
