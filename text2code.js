@@ -39,15 +39,22 @@ async function repl_client_connect() {
   // Open a client channel corresponding to the 
   // repl interpreter service { interp2 } which
   // directly implements Prybar
-  const interpreter_channel = await repl_client.openChannel({
+  const interpreter_channel = repl_client.openChannel({
     name: "interper",
     service: "interp2"
   })
 
-  repl_client.close()
+  // Specify what we want to occur once a command
+  // is received from the channel
+  interpreter_channel.on("command", (command) => {
+    console.log(command)
+  })
+
+  await interpreter_channel.send({ interp2: "print(2+2)"})
 }
 
 repl_client_connect()
+
 
 /**
  * get_connection_token is an asynchronous function
