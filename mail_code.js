@@ -27,7 +27,13 @@ const file_system = require("fs")
  * repl instance IDs indicated by their language
  * file extension (eg: py, js, r, etc.)
  */
-const repl_constants = require("./constants.json")
+const constants = require("./constants.json")
+
+const cmd_input = readline.createInterface({
+                    input: process.stdin,
+                    output: process.stdout
+                  })
+cmd_input.setPrompt("(interp2) > ")
 
 /**
  * repl_client_process() specifies the creation of a repl
@@ -46,7 +52,7 @@ async function repl_client_process() {
   /**
    * Acquire a token corresponding to an existing repl instance.
    */
-  const token = await get_repl_connection_token(repl_constants.apiKey, repl_constants.py)
+  const token = await get_repl_connection_token(constants.apiKey, constants.py)
 
   /**
    * Connect our created client to the repl instance
@@ -74,7 +80,19 @@ async function repl_client_process() {
     console.log(command)
   })
 
-  interpreter_channel.send({ input: "print(2+2)\n"})
+  /**
+   * Specify what we want to occur once a command
+   * is input to the command line 
+   */
+  cmd_input.on("line", (line) => {
+    if(!line) {
+      cmd_input.close()
+      repl_client.close()
+      process.exit()
+    } else {
+      interpreter_channel.send({ input: `${line}\n`})
+    }
+  })
 }
 
 repl_client_process()
