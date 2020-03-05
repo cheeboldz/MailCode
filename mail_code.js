@@ -31,9 +31,9 @@ const constants = require("./constants.json")
 
 const cmd_input = readline.createInterface({
                     input: process.stdin,
-                    output: process.stdout
+                    output: process.stdout,
+                    prompt: "(interp2) >"
                   })
-cmd_input.setPrompt("(interp2) > ")
 
 /**
  * repl_client_process() specifies the creation of a repl
